@@ -10,14 +10,14 @@ class PageNotFound404:
 
 class Framework:
     """
-    The base class witch need to be use first
+    The base class
     """
 
     def __init__(self, route_lst):
         self.route_lst = route_lst
 
     def __call__(self, environ, start_response):
-        pprint(environ)
+        # pprint(environ)
 
         path = environ['PATH_INFO']
         if not path.endswith('/'):
@@ -27,11 +27,9 @@ class Framework:
 
         # get request params or/and data
         if request['method'] == 'GET':
-            pprint('GET_METHOD')
             request['request_params'] = GetRequests().get_request_params(environ)
         if request['method'] == 'POST':
-            pprint('POST_METHOD')
-            request['request_params'] = PostRequests.get_request_data(environ)
+            request['data'] = PostRequests.get_request_data(environ)
 
         # get Controller (function)
         if path in self.route_lst:
@@ -42,5 +40,6 @@ class Framework:
         # start Controller
         code, body = view()
         start_response(code, [('Content-Type', 'text/html')])
+        pprint(request)
         return [body.encode('utf-8')]
 

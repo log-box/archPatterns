@@ -1,3 +1,4 @@
+import quopri
 from pprint import pprint
 
 from logbox_framework.rest_methods import GetRequests, PostRequests
@@ -29,7 +30,7 @@ class Framework:
         if request['method'] == 'GET':
             request['request_params'] = GetRequests().get_request_params(environ)
         if request['method'] == 'POST':
-            request['data'] = PostRequests.get_request_data(environ)
+            request['data'] = Framework.decode(PostRequests.get_request_data(environ))
 
         # get Controller (function)
         if path in self.route_lst:
@@ -43,3 +44,12 @@ class Framework:
         pprint(request)
         return [body.encode('utf-8')]
 
+    @staticmethod
+    def decode(data):
+        decode_data = {}
+        for key, value in data.items():
+            temp_val = bytes(value.replace('%', '=').replace('+', ''), 'UTF-8')
+            decode_value = quopri.decodestring(temp_val).decode('UTF-8')
+            decode_data[key] = decode_value
+        # print(decode_data)
+        return decode_data

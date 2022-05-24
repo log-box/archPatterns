@@ -8,4 +8,4 @@ class Index:
 
 class About:
     def __call__(self):
-        return '200 OK', 'About page is under develop'
+        return '200 OK', render('about.html')

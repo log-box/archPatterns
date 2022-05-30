@@ -21,3 +21,8 @@ class UserFactory:
         'admin': Admin,
     }
 
+    @classmethod
+    def create(cls, type_):
+        return cls.types[type_]
+
+

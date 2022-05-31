@@ -60,7 +60,7 @@ class CreateCategory:
             new_category = core.create_category(name, category)
             core.categories.append(new_category)
 
-            return '200 OK', render('index.html', object_list=core.categories)
+            return '200 OK', render('index.html', objects_list=core.categories)
         else:
             categories = core.categories
             return '200 OK', render('create_category.html', categories=categories)

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}
+Logbox_FrameWork
+{% endblock %}
+{% block style %}
+
+{% endblock %}
+
+{% block menu %}
+{% include "inc-menu.html" %}
+{% endblock %}
+
+{% block body %}
+<div>
+  <a href="/">На главную</a>
+
+</div>
+<div>
+  <a href="/create-board/?id={{id}}">Создать новую доску</a>
+  <h2>Доступные доски в категории - "{{name}}"</h2>
+  {% for item in objects_list %}
+    <li>
+      {{item.name}}
+    </li>
+  {% endfor %}
+</div>
+{% endblock %}

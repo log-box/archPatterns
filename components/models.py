@@ -62,8 +62,8 @@ class BoardFactory:
     }
 
     @classmethod
-    def create(cls, type_):
-        return cls.types[type_]
+    def create(cls, type_, name, category):
+        return cls.types[type_](name, category)
 
 
 class CoreEngine:
@@ -88,8 +88,8 @@ class CoreEngine:
                 return item
 
     @staticmethod
-    def create_board(type_):
-        return BoardFactory.create(type_)
+    def create_board(type_, name, category):
+        return BoardFactory.create(type_, name, category)
 
     def get_board(self, name):
         for item in self.boards:

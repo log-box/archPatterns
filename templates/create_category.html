@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}
+Logbox_FrameWork
+{% endblock %}
+{% block style %}
+
+{% endblock %}
+
+{% block menu %}
+{% include "inc-menu.html" %}
+{% endblock %}
+
+{% block body %}
+<h1> Создание новой категории </h1>
+<form method="post">
+  <input type="text" name="name" placeholder="Название">
+  <button>Созранить и вернуться на главную</button>
+</form>
+{% endblock %}

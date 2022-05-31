@@ -5,12 +5,12 @@ core = CoreEngine()
 
 
 class Index:
-    def __call__(self):
+    def __call__(self, request):
         return '200 OK', render('index.html', objects_list=core.categories)
 
 
 class About:
-    def __call__(self):
+    def __call__(self, request):
         return '200 OK', render('about.html')
 
 
@@ -29,6 +29,7 @@ class CreateBoard:
     def __call__(self, request):
 
         if request['method'] == 'POST':
+            print(request)
             type_ = core.decode_value(request['data']['type'])
             name = core.decode_value(request['data']['name'])
             category = None
@@ -37,6 +38,14 @@ class CreateBoard:
                 board = core.create_board(type_, name, category)
                 core.boards.append(board)
             return '200 OK', render('boards.html', objects_list=category.boards, name=category.name, id=category.id)
+        else:
+            try:
+                self.category_id = int(request['request_params']['id'])
+                category = core.find_category(int(self.category_id))
+
+                return '200 OK', render('create_board.html', name=category.name, id=category.id)
+            except KeyError:
+                return '200 Ok', 'There no category and boards added yet'
 
 
 class CreateCategory:

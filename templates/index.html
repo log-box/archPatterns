@@ -1,23 +1,24 @@
 {% extends "base.html" %}
 {% block title %}
-Logbox_FrameWork
+Главная страница
 {% endblock %}
 {% block style %}
 
 {% endblock %}
-
 {% block menu %}
-{% include "inc-menu.html" %}
+	{% include "inc-menu.html" %}
 {% endblock %}
-
 {% block body %}
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab deserunt earum excepturi hic itaque non numquam,
-    provident quidem sed tempora! Impedit libero modi non officiis pariatur quod saepe veritatis, vero!</p>
-<div> {{ objects_list }} </div>
-<form action="#" class="form" method="post">
-	<input type="text" name="name" id="name" placeholder="Имя" />
-	<input type="text" name="email" id="email" placeholder="E-Mail" />
-	<input type="text" name="phone" id="phone" placeholder="Телефон" />
-	<button type="submit">Отправить</button>
-</form>
+	<div>
+		<a href="/create-category/">Создать новую категорию</a>
+	</div>
+	<div>
+		<h1>Список существующих категорий</h1>
+        {% for item in objects_list %}
+        <li>
+            {{item.name}} <span>Количество досок: {{item.boards_count()}}</span>
+			<a href="/boards/?id={{item.id}}">Показать доски</a>
+        </li>
+        {% endfor %}
+	</div>
 {% endblock %}

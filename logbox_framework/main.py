@@ -39,7 +39,7 @@ class Framework:
             view = PageNotFound404()
 
         # start Controller
-        code, body = view()
+        code, body = view(request)
         start_response(code, [('Content-Type', 'text/html')])
         pprint(request)
         return [body.encode('utf-8')]

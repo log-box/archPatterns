@@ -46,6 +46,12 @@ class Category:
         self.category = category
         self.boards = []
 
+    def boards_count(self):
+        result = len(self.boards)
+        if self.category:
+            result += self.category.course_count()
+        return result
+
 
 class PublicBoard(Board):
     pass

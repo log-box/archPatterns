@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+Создание доски
+{% endblock %}
+{% block style %}
+
+{% endblock %}
+{% block menu %}
+	{% include "inc-menu.html" %}
+{% endblock %}
+{% block body %}
+    <div>
+        <a href="/boards/?id={{id}}">назад</a>
+    </div>
+
+    <br>
+    <br>
+
+    <div>
+        <h1>Создание доски для категории "{{name}}"</h1>
+        <form method="post">
+            <input type="text" name="name" placeholder="Название">
+            <select name="type" size="3" multiple>
+                <option selected value="public">Публичная доска</option>
+                <option value="private">Частная доска</option>
+           </select>
+            <button type="submit">Сохранить и вернуться к списку досок</button>
+        </form>
+    </div>
+{% endblock %}

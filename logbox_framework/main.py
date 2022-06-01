@@ -1,6 +1,7 @@
 import quopri
 from pprint import pprint
 
+from components.decorators import logging
 from logbox_framework.rest_methods import GetRequests, PostRequests
 
 
@@ -17,6 +18,7 @@ class Framework:
     def __init__(self, route_lst):
         self.route_lst = route_lst
 
+    @logging
     def __call__(self, environ, start_response):
         # pprint(environ)
 

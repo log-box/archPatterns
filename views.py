@@ -1,19 +1,24 @@
+from components.decorators import debug, AppRoute
 from components.models import CoreEngine
 from logbox_framework.templator import render
 
 core = CoreEngine()
+routes = {}
 
 
+@AppRoute(routes=routes, url='/')
 class Index:
     def __call__(self, request):
         return '200 OK', render('index.html', objects_list=core.categories)
 
 
+@AppRoute(routes=routes, url='/about/')
 class About:
     def __call__(self, request):
         return '200 OK', render('about.html')
 
 
+@AppRoute(routes=routes, url='/boards/')
 class Boards:
     def __call__(self, request):
         try:
@@ -23,6 +28,7 @@ class Boards:
             return '200 OK', 'There no any boards yet'
 
 
+@AppRoute(routes=routes, url='/create-board/')
 class CreateBoard:
     category_id = -1
 
@@ -48,7 +54,9 @@ class CreateBoard:
                 return '200 Ok', 'There no category and boards added yet'
 
 
+@AppRoute(routes=routes, url='/create-category/')
 class CreateCategory:
+    @debug
     def __call__(self, request):
         if request['method'] == 'POST':
             name = core.decode_value(request['data']['name'])
@@ -66,6 +74,7 @@ class CreateCategory:
             return '200 OK', render('create_category.html', categories=categories)
 
 
+@AppRoute(routes=routes, url='/category-list/')
 class CategoryList:
     def __call__(self, request):
         return '200 OK', render('category_list.html', objects_list=core.categories)

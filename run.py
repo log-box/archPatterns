@@ -1,7 +1,7 @@
 from wsgiref.simple_server import make_server
 
 from logbox_framework.main import Framework
-from urls import routes
+from views import routes
 
 SERVER_PORT = 8080
 

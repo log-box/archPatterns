@@ -1,3 +1,4 @@
+import logging
 import quopri
 from pprint import pprint
 
@@ -17,6 +18,15 @@ class Framework:
 
     def __init__(self, route_lst):
         self.route_lst = route_lst
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.WARNING)
+        logger_handler = logging.FileHandler('framework.log')
+        logger_handler.setLevel(logging.WARNING)
+        logger_formatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
+        logger_handler.setFormatter(logger_formatter)
+        self.logger.addHandler(logger_handler)
+        self.logger.info('Настройка логгирования окончена!')
+
 
     @logging
     def __call__(self, environ, start_response):
@@ -43,7 +53,7 @@ class Framework:
         # start Controller
         code, body = view(request)
         start_response(code, [('Content-Type', 'text/html')])
-        pprint(request)
+        self.logger.info(f'call method {view}')
         return [body.encode('utf-8')]
 
     @staticmethod

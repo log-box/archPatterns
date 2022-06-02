@@ -39,12 +39,15 @@ class Board:
 class Category:
     category_id = 0
 
-    def __init__(self, name, category):
+    def __init__(self, name, category, child_category=None):
         self.name = name
         self.id = Category.category_id
         Category.category_id += 1
         self.category = category
         self.boards = []
+        self.parent_category = None
+        self.child_category = child_category
+
 
     def boards_count(self):
         result = len(self.boards)

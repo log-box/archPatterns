@@ -20,6 +20,7 @@ class TemplateView:
         return self.render_template_with_context()
 
 
+# CBV List display controller
 class ListView(TemplateView):
     queryset = []
     template_name = 'list.html'
@@ -37,3 +38,24 @@ class ListView(TemplateView):
         contex_object_name = self.get_contex_object_name()
         contex = {contex_object_name: queryset}
         return contex
+
+
+# CBV object create controller
+class CreateView(TemplateView):
+    template_name = 'create.html'
+
+    @staticmethod
+    def get_request_data(request):
+        return request['data']
+
+    def create_obj(self, data):
+        pass
+
+    def __call__(self, request):
+        if request['method'] == 'POST':
+            data = self.get_request_data(request)
+            self.create_obj(data)
+
+            return self.render_template_with_context()
+        else:
+            return super().__call__(request)

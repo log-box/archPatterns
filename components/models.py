@@ -2,11 +2,14 @@ import quopri
 
 
 class User:
-    pass
+    def __init__(self, name):
+        self.name = name
 
 
 class Guest(User):
-    pass
+    def __init__(self, name):
+        super().__init__(name)
+        self.boards = []
 
 
 class Registered(User):
@@ -25,8 +28,8 @@ class UserFactory:
     }
 
     @classmethod
-    def create(cls, type_):
-        return cls.types[type_]
+    def create(cls, type_, name):
+        return cls.types[type_](name)
 
 
 class Board:
@@ -34,6 +37,15 @@ class Board:
         self.name = name
         self.category = category
         self.category.boards.append(self)
+        self.guests = []
+        super().__init__()
+
+    def __iter__(self, item):
+        return self.guests[item]
+
+    def add_guest_to_board(self, guest: Guest):
+        self.guests.append(guest)
+        guest.boards.append(self)
 
 
 class Category:
@@ -47,7 +59,6 @@ class Category:
         self.boards = []
         self.parent_category = None
         self.child_category = child_category
-
 
     def boards_count(self):
         result = len(self.boards)
@@ -77,15 +88,15 @@ class BoardFactory:
 
 class CoreEngine:
     def __init__(self):
-        self.guest = []
+        self.guests = []
         self.register = []
         self.admin = []
         self.boards = []
         self.categories = []
 
     @staticmethod
-    def create_user(type_):
-        return UserFactory.create(type_)
+    def create_user(type_, name):
+        return UserFactory.create(type_, name)
 
     @staticmethod
     def create_category(name, category=None):
@@ -102,6 +113,12 @@ class CoreEngine:
 
     def get_board(self, name):
         for item in self.boards:
+            if item.name == name:
+                return item
+        return None
+
+    def get_guest(self, name):
+        for item in self.guests:
             if item.name == name:
                 return item
         return None

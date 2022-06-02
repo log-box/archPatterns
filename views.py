@@ -1,5 +1,6 @@
 from components.decorators import debug, AppRoute
 from components.models import CoreEngine
+from components.viewclasses import ListView, CreateView
 from logbox_framework.templator import render
 
 core = CoreEngine()
@@ -78,3 +79,44 @@ class CreateCategory:
 class CategoryList:
     def __call__(self, request):
         return '200 OK', render('category_list.html', objects_list=core.categories)
+
+
+# Controller list of guests
+@AppRoute(routes=routes, url='/guests-list/')
+class GuestsListView(ListView):
+    queryset = core.guests
+    template_name = 'guests_list.html'
+
+
+# Controller guest create
+@AppRoute(routes=routes, url='/create-guest/')
+class GuestCreateView(CreateView):
+    template_name = 'create_guest.html'
+
+    def create_obj(self, data: dict):
+        name = data['name']
+        name = core.decode_value(name)
+        # пока хардкодим и создаем только гостей
+        new_obj = core.create_user('guest', name)
+        core.guests.append(new_obj)
+
+
+# Controller guest add
+@AppRoute(routes=routes, url='/add-guest/')
+class AddGuestToBoardCreateView(CreateView):
+    template_name = 'add_guest.html'
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['boards'] = core.boards
+        context['guests'] = core.guests
+        return context
+
+    def create_obj(self, data: dict):
+        board_name = data['board_name']
+        board_name = core.decode_value(board_name)
+        board = core.get_board(board_name)
+        guest_name = data['guest_name']
+        guest_name = core.decode_value(guest_name)
+        guest = core.get_guest(guest_name)
+        board.add_guest_to_board(guest)

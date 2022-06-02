@@ -5,7 +5,7 @@ from logbox_framework.templator import render
 class TemplateView:
     template_name = 'template.html'
 
-    def get_contex_data(self):
+    def get_context_data(self):
         return {}
 
     def get_template(self):
@@ -13,7 +13,7 @@ class TemplateView:
 
     def render_template_with_context(self):
         template_name = self.get_template()
-        context = self.get_contex_data()
+        context = self.get_context_data()
         return '200 OK', render(template_name, **context)
 
     def __call__(self, request):
@@ -30,12 +30,12 @@ class ListView(TemplateView):
         print(self.queryset)
         return self.queryset
 
-    def get_contex_object_name(self):
+    def get_context_object_name(self):
         return self.context_object_name
 
-    def get_contex_data(self):
+    def get_context_data(self):
         queryset = self.get_queryset()
-        contex_object_name = self.get_contex_object_name()
+        contex_object_name = self.get_context_object_name()
         contex = {contex_object_name: queryset}
         return contex
 

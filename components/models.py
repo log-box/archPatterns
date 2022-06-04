@@ -60,6 +60,9 @@ class Category:
         self.parent_category = None
         self.child_category = child_category
 
+    def __iter__(self, item):
+        return self.category[item]
+
     def boards_count(self):
         result = len(self.boards)
         if self.category:

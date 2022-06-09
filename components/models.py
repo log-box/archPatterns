@@ -1,13 +1,15 @@
 import quopri
 import sqlite3
 
+from components.unit_of_work import DomainObject
+
 
 class User:
     def __init__(self, name):
         self.name = name
 
 
-class Guest(User):
+class Guest(User, DomainObject):
     def __init__(self, name):
         super().__init__(name)
         self.boards = []

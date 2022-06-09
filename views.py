@@ -2,10 +2,13 @@ from components.decorators import debug, AppRoute
 from components.models import CoreEngine
 from components.viewclasses import ListView, CreateView
 from logbox_framework.templator import render
+from components.models import MapperRegistry
+from components.unit_of_work import UnitOfWork
 
 core = CoreEngine()
 routes = {}
-
+UnitOfWork.new_current()
+UnitOfWork.get_current().set_mapper_registry(MapperRegistry)
 
 @AppRoute(routes=routes, url='/')
 class Index:
@@ -84,8 +87,12 @@ class CategoryList:
 # Controller list of guests
 @AppRoute(routes=routes, url='/guests-list/')
 class GuestsListView(ListView):
-    queryset = core.guests
+    #queryset = core.guests
     template_name = 'guests_list.html'
+
+    def get_queryset(self):
+        mapper = MapperRegistry.get_current_mapper('guest')
+        return mapper.all()
 
 
 # Controller guest create
@@ -99,6 +106,8 @@ class GuestCreateView(CreateView):
         # пока хардкодим и создаем только гостей
         new_obj = core.create_user('guest', name)
         core.guests.append(new_obj)
+        new_obj.mark_new()
+        UnitOfWork.get_current().commit()
 
 
 # Controller guest add

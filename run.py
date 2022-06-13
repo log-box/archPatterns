@@ -2,10 +2,11 @@ from wsgiref.simple_server import make_server
 
 from logbox_framework.main import Framework
 from views import routes
+from components import settings
 
 SERVER_PORT = 8080
 
-application = Framework(routes)
+application = Framework(settings, routes)
 
 
 with make_server('', SERVER_PORT, application) as httpd:

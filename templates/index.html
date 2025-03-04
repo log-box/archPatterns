@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}
+Logbox_FrameWork
+{% endblock %}
+{% block style %}
+
+{% endblock %}
+
+{% block menu %}
+{% include "inc-menu.html" %}
+{% endblock %}
+
+{% block body %}
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab deserunt earum excepturi hic itaque non numquam,
+    provident quidem sed tempora! Impedit libero modi non officiis pariatur quod saepe veritatis, vero!</p>
+<form action="#" class="form" method="post">
+	<input type="text" name="name" id="name" placeholder="Имя" />
+	<input type="text" name="email" id="email" placeholder="E-Mail" />
+	<input type="text" name="phone" id="phone" placeholder="Телефон" />
+	<button type="submit">Отправить</button>
+</form>
+{% endblock %}
